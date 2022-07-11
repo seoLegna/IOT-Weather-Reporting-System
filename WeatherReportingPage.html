@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	    <!-- Bootstrap CSS -->
+	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	    <title>Humidity & Temperature Chart</title>
+	</head>
+	<body class="bg-warning py-5">
+		<div class="container">
+		<div class="row">
+			<div class="col-sm">
+	  		<div class="card">
+	  			<div class="card-body">
+	    			<h1>Humidity Chart</h1>
+	    		</div>
+	    		<div class="card-body">
+	    			<canvas id="myChart"></canvas>
+	    		</div>
+	    	</div>
+			</div>
+
+			<div class="col-sm">
+	  		<div class="card">
+	  			<div class="card-body">
+	    			<h1>Temperature Chart</h1>
+	    		</div>
+	    		<div class="card-body">
+	    			<canvas id="tempChart"></canvas>
+	    		</div>
+	    	</div>
+			</div>
+		</div>
+
+		<div class="row mt-5">
+
+			<div class="col-sm">
+	  		<div class="card">
+	  			<div class="card-body">
+	    			<h1>Average Humidity Chart</h1>
+	    		</div>
+	    		<div class="card-body">
+	    			<canvas id="avgHChart"></canvas>
+	    		</div>
+	    	</div>
+			</div>
+
+			<div class="col-sm">
+	  		<div class="card">
+	  			<div class="card-body">
+	    			<h1>Average Temperature Chart</h1>
+	    		</div>
+	    		<div class="card-body">
+	    			<canvas id="avgChart"></canvas>
+	    		</div>
+	    	</div>
+			</div>
+		</div>
+		<!-- Optional JavaScript -->
+	    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	    <script>
+		  	labels = [1, 2, 4, 8, 16];
+
+		  	const data = {
+		    	labels: labels,
+		    	datasets: [{
+		      	label: 'Humidity %',
+		      	//backgroundColor: 'rgb(0, 99, 132)',
+		      	borderColor: 'rgb(0, 99, 132)',
+		      	data: [1, 2, 3, 4, 5],
+		      	fill: true
+		    	}]
+		  	};
+
+		  	const config = {
+		    	type: 'line',
+		    	data: data,
+		    	options: {}
+		  	};
+		</script>
+		<script>
+		  	const myChart = new Chart(
+		    	document.getElementById('myChart'),
+		    	config
+		  	);
+
+		  	function updateChart(newData, newLabel) {
+		  		if (newData.length > 6) {
+		  			newData = newData.splice(-6);
+		  		}
+		  		if (newLabel.length > 6) {
+		  			newLabel = newLabel.splice(-6);
+		  		}
+		  		myChart.data.datasets[0].data = newData;
+		  		myChart.data.labels = newLabel;
+		  		myChart.update();
+		  	}
+		</script>
+
+		<script>
+		  	tempLabels = [1, 2, 4, 8, 16];
+
+		  	const tempData = {
+		    	labels: tempLabels,
+		    	datasets: [{
+		      	label: 'Temperature in °C',
+		      	//backgroundColor: 'rgb(0, 99, 132)',
+		      	borderColor: 'rgb(0, 200, 0)',
+		      	data: [3, 6, 9, 12, 15],
+		      	fill: true
+		    	}]
+		  	};
+
+		  	const tempConfig = {
+		    	type: 'line',
+		    	data: tempData,
+		    	options: {}
+		  	};
+		</script>
+		<script>
+		  	const tChart = new Chart(
+		    	document.getElementById('tempChart'),
+		    	tempConfig
+		  	);
+
+		  	function updateTChart(newData, newLabel) {
+		  		if (newData.length > 6) {
+		  			newData = newData.splice(-6);
+		  		}
+		  		if (newLabel.length > 6) {
+		  			newLabel = newLabel.splice(-6);
+		  		}
+		  		tChart.data.datasets[0].data = newData;
+		  		tChart.data.labels = newLabel;
+		  		tChart.update();
+		  	}
+		</script>
+
+		<script>
+		  	avgLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+		  	const avgTempData = {
+		    	labels: avgLabels,
+		    	datasets: [{
+		      	label: 'Average Temperature in °C Per Day',
+		      	backgroundColor: 'rgb(200, 0, 0)',
+		      	borderColor: 'rgb(200, 0, 0)',
+		      	data: [3, 6, 9, 12, 15],
+		      	fill: true
+		    	}]
+		  	};
+
+		  	const avgTempConfig = {
+		    	type: 'bar',
+		    	data: avgTempData,
+		    	options: {}
+		  	};
+		</script>
+		<script>
+		  	const avgChart = new Chart(
+		    	document.getElementById('avgChart'),
+		    	avgTempConfig
+		  	);
+
+		  	function updateAvgChart(newData, newLabel) {
+		  		avgChart.data.datasets[0].data = newData;
+		  		avgChart.data.labels = newLabel;
+		  		avgChart.update();
+		  	}
+		</script>
+
+		<script>
+		  	avgHLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+		  	const avgHumidData = {
+		    	labels: avgHLabels,
+		    	datasets: [{
+		      	label: 'Average % Humidity Per Day',
+		      	backgroundColor: 'rgb(128,0,128)',
+		      	borderColor: 'rgb(128,0,128)',
+		      	data: [3, 6, 9, 12, 15],
+		      	fill: true
+		    	}]
+		  	};
+
+		  	const avgHumidConfig = {
+		    	type: 'bar',
+		    	data: avgHumidData,
+		    	options: {}
+		  	};
+		</script>
+		<script>
+		  	const avgHChart = new Chart(
+		    	document.getElementById('avgHChart'),
+		    	avgHumidConfig
+		  	);
+
+		  	function updateAvgHChart(newData, newLabel) {
+		  		avgHChart.data.datasets[0].data = newData;
+		  		avgHChart.data.labels = newLabel;
+		  		avgHChart.update();
+		  	}
+		</script>
+
+		<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+		<script type="text/javascript">
+			const humidityArr = [];
+			const timeHLabel = [];
+			var countH = 0;
+			const timeTLabel = [];
+			var countT = 0;
+			const temperatureArr = [];
+			const avgTempArr = [];
+			const avgHumidArr = [];
+			const avgTempDayArr = [];
+			var myFirebaseRef = new Firebase("Your Firebase Database Link");
+			var dhtRef = myFirebaseRef.child('DHT11');
+			var temperatureRef = dhtRef.child('Temperature');
+			var humidityRef = dhtRef.child('Humidity');
+			var avgTempRef = dhtRef.child('AvgTemp');
+			var avgHumidRef = dhtRef.child('AvgHumidity');
+			var avgTempDayRef = dhtRef.child('Day');
+			humidityRef.on("value", function(snapshot) {
+				snapshot.forEach(function(value) {
+					humidityArr.push(parseFloat(value.val()));
+					timeHLabel.push(countH++);
+				});
+				countH = 0;
+				updateChart(humidityArr, timeHLabel);
+			});
+			console.log(humidityArr);
+			temperatureRef.on("value", function(snapshot) {
+				snapshot.forEach(function(value) {
+					temperatureArr.push(parseFloat(value.val()));
+					timeTLabel.push(countT++);
+				});
+				countT = 0;
+				updateTChart(temperatureArr, timeTLabel);
+			});
+			console.log(temperatureArr);
+			avgTempDayRef.on("value", function(snapshot) {
+				snapshot.forEach(function(value) {
+					avgTempDayArr.push(value.val());
+				});
+			});
+			console.log(avgTempDayArr);
+			avgTempRef.on("value", function(snapshot) {
+				snapshot.forEach(function(value) {
+					avgTempArr.push(parseFloat(value.val()));
+				});
+				updateAvgChart(avgTempArr, avgTempDayArr);
+			});
+			console.log(avgTempArr);
+			avgHumidRef.on("value", function(snapshot) {
+				snapshot.forEach(function(value) {
+					avgHumidArr.push(parseFloat(value.val()));
+				});
+				updateAvgHChart(avgHumidArr, avgTempDayArr);
+			});
+			console.log(avgHumidArr);
+		</script>
+
+	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</body>
+</html>
